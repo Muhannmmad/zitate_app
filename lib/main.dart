@@ -51,46 +51,53 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Get quot')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '"$quote"',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                    color: const Color.fromARGB(255, 0, 83, 151)),
-              ),
-              SizedBox(height: 10),
-              Text(
-                author.isNotEmpty ? '- $author' : '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: const Color.fromARGB(255, 123, 0, 0),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: fetchQuote,
-                child: Text(
-                  'Get new quotation',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ],
+      body: Stack(children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/09c7b5584ff749eb34455a54ee657331.jpg',
+            fit: BoxFit.cover,
           ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '"$quote"',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                      color: const Color.fromARGB(255, 0, 83, 151)),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  author.isNotEmpty ? '- $author' : '',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: const Color.fromARGB(255, 123, 0, 0),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: fetchQuote,
+                  child: Text(
+                    'Get new quotation',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }
