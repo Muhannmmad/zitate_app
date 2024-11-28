@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -8,38 +10,83 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Zitate App',
-      home: ZitateScreen(),
+      title: 'Zitat App',
+      home: QuoteScreen(),
     );
   }
 }
 
-class ZitateScreen extends StatelessWidget {
+class QuoteScreen extends StatefulWidget {
+  @override
+  _QuoteScreenState createState() => _QuoteScreenState();
+}
+
+class _QuoteScreenState extends State<QuoteScreen> {
+  String quote = 'click here to get new quotation.';
+  String author = '';
+
+  Future<void> fetchQuote() async {
+    final url = Uri.parse('https://api.api-ninjas.com/v1/quotes');
+    final response = await http.get(
+      url,
+      headers: {
+        'X-Api-Key': 'RzN5klLmwJH260bJVg0yfQ==anILjq2Zqvujuk1h',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        quote = data[0]['quote'];
+        author = data[0]['author'];
+      });
+    } else {
+      setState(() {
+        quote = 'Fehler beim Abrufen des Zitats.';
+        author = '';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Zitate App'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '"The only limit to our realization of tomorrow is our doubts of today."',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
+      appBar: AppBar(title: Text('Get quot')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '"$quote"',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 0, 83, 151)),
               ),
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Text'),
-            ),
-          ],
+              SizedBox(height: 10),
+              Text(
+                author.isNotEmpty ? '- $author' : '',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: const Color.fromARGB(255, 123, 0, 0),
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: fetchQuote,
+                child: Text(
+                  'Get new quotation',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
