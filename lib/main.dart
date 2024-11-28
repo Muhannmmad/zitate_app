@@ -80,7 +80,8 @@ class QuoteScreenState extends State<QuoteScreen> {
 
       _confettiController.play();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('New quote loaded')),
+        const SnackBar(
+            content: Text('Congratulations 🎉🎉🎉🎉 🎊🎊🎊 New quote loaded!')),
       );
     } else {
       setState(() {
