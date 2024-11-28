@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:confetti/confetti.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,20 +29,28 @@ class QuoteScreen extends StatefulWidget {
 
 class QuoteScreenState extends State<QuoteScreen> {
   String quote = '';
-
   String author = '';
+  late ConfettiController _confettiController;
 
   @override
   void initState() {
     super.initState();
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 2));
     loadSavedQuote();
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
   }
 
   Future<void> loadSavedQuote() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       quote = prefs.getString('quote') ??
-          'As me in life as a feather in the air missed its way to its aim so it left itself to the wind to lead it anywhere hopeless and aimless ';
+          'As me in life as a feather in the air missed its way to its aim so it left itself to the wind to lead it anywhere hopeless and aimless';
       author = prefs.getString('author') ?? 'Muhammad Hassan';
     });
   }
@@ -68,6 +77,11 @@ class QuoteScreenState extends State<QuoteScreen> {
         author = data[0]['author'];
       });
       await saveQuote(quote, author);
+
+      _confettiController.play();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('New quote loaded')),
+      );
     } else {
       setState(() {
         quote = 'Fehler beim Abrufen des Zitats.';
@@ -81,7 +95,7 @@ class QuoteScreenState extends State<QuoteScreen> {
     await prefs.remove('quote');
     await prefs.remove('author');
     setState(() {
-      quote = 'click to get a new Quotation';
+      quote = 'Click to get a new Quotation';
       author = '';
     });
   }
@@ -97,16 +111,12 @@ class QuoteScreenState extends State<QuoteScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          Positioned(
-            top: 100,
-            right: 20,
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Image.asset(
-                'assets/1294.png',
-              ),
-            ),
+          ConfettiWidget(
+            confettiController: _confettiController,
+            blastDirectionality: BlastDirectionality.explosive, // Rundum
+            emissionFrequency: 0.05,
+            numberOfParticles: 20,
+            shouldLoop: false,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
