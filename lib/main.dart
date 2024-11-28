@@ -84,16 +84,21 @@ class _QuoteScreenState extends State<QuoteScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: fetchQuote,
-                  child: Text(
-                    'Get new quotation',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
               ],
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 100,
+          right: 100,
+          left: 100,
+          child: ElevatedButton(
+            onPressed: fetchQuote,
+            child: Text(
+              'Get new quotation',
+              style: TextStyle(
+                fontSize: 18,
+              ),
             ),
           ),
         ),
