@@ -64,6 +64,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
                     color: const Color.fromARGB(255, 0, 83, 151)),
               ),
               SizedBox(height: 10),
@@ -71,9 +72,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 author.isNotEmpty ? '- $author' : '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 16.0,
-                    color: const Color.fromARGB(255, 123, 0, 0),
-                    fontWeight: FontWeight.bold),
+                  fontSize: 16.0,
+                  color: const Color.fromARGB(255, 123, 0, 0),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
